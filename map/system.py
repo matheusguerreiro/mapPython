@@ -51,3 +51,4 @@ while True:
     else:
         print('Erro! Digite uma Opção Válida.\n'
               'Opções de 1 até 7')
+
