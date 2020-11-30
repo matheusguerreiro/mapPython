@@ -55,6 +55,11 @@ def validarInt(n):
             return o
 
 
+def pause():
+    print('Continuar?')
+    wait = input('Pressione Enter para continuar...')
+
+
 def cadastrarAmigo():
     class amigo:
         def __init__(self, nome, telefone, endereco, locacao):

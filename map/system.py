@@ -32,8 +32,10 @@ while True:
     elif opcao == 4:
         if len(listaRevistas) == 0:
             print('A Lista de Revistas está Vazia!')
+            pause()
         else:
             imprimirListaRevistas()
+            pause()
     elif opcao == 5:
         if len(listaAmigos) == 0:
             print('A Lista de Amigos está Vazia!')
@@ -46,7 +48,7 @@ while True:
             imprimirListaEmprestimos()
     elif opcao == 7:
         print('Saindo...')
-        sleep(2)
+        sleep(1)
         break
     else:
         print('Erro! Digite uma Opção Válida.\n'
