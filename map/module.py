@@ -1,7 +1,6 @@
-Revistas = {}
 listaRevistas = []
-Amigos = {}
 listaAmigos = []
+listaEmprestimo = []
 
 def cadastrarRevista():
     class revista:
@@ -25,21 +24,24 @@ def cadastrarRevista():
         def getAno(self):
             return self.ano
 
-    colecao = str(input('Coleção: '))
-    edicao = int(input('Edição: '))
-    ano = int(input('Ano: '))
+    colecao = str(input('Coleção: ')).title().strip()
+    edicao = validarInt('Edição: ')
+    ano = validarInt('Ano: ')
 
     r = revista(colecao, edicao, ano)
 
-    Revistas.clear()
-
-    Revistas['Coleção'] = r.getColecao()
-    Revistas['Edição'] = r.getEdicao()
-    Revistas['Ano'] = r.getAno()
-
-    listaRevistas.append(Revistas.copy())
+    listaRevistas.append(r)
 
     return r
+
+
+def imprimirListaRevistas():
+    for c in range(0, len(listaRevistas)):
+        print(f'{"-------------------------------"}')
+        print(f'Coleção: {listaRevistas[c].colecao}\n'
+              f'Edição: {listaRevistas[c].edicao}\n'
+              f'Ano: {listaRevistas[c].ano}')
+        print(f'{"-------------------------------"}')
 
 
 def validarInt(n):
@@ -55,10 +57,11 @@ def validarInt(n):
 
 def cadastrarAmigo():
     class amigo:
-        def __init__(self, nome, telefone, endereco):
+        def __init__(self, nome, telefone, endereco, locacao):
             self.nome = nome
             self.telefone = telefone
             self.endereco = endereco
+            self.locacao = locacao
 
         def setNome(self, nome):
             self.nome = nome
@@ -75,19 +78,43 @@ def cadastrarAmigo():
         def getEndereco(self):
             return self.endereco
 
+        def setLocacao(self, locacao):
+            self.locacao = locacao
+        def getLocacao(self):
+            return self.locacao
+
     nome = str(input('Nome: '))
     telefone = str(input('Telefone: '))
     endereco = str(input('Endereço: '))
+    locacao = False
 
-    a = amigo(nome, telefone, endereco)
-    listaAmigos.append(a[:])
+    a = amigo(nome, telefone, endereco, locacao)
+
+    listaAmigos.append(a)
+
     return a
+
+
+def imprimirListaAmigos():
+    for c in range(0, len(listaAmigos)):
+        print(f'{"-------------------------------"}')
+        print(f'Nome: {listaAmigos[c].nome}\n'
+              f'Telefone: {listaAmigos[c].telefone}\n'
+              f'Endereço: {listaAmigos[c].endereco}\n'
+              f'Locação: {listaAmigos[c].locacao}')
+        print(f'{"-------------------------------"}')
 
 
 def cadastrarEmprestimo():
     class emprestimo:
-        def __init__(self, dataL, dataD):
+        def __init__(self, dataL, dataD, amigo, revista):
             self.dataL = dataL
             self.dataD = dataD
+            self.amigo = amigo
+            self.revista = revista
+
+
+def imprimirListaEmprestimos():
+    print(listaEmprestimo)
 
 
