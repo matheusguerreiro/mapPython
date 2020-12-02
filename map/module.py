@@ -4,10 +4,11 @@ listaEmprestimo = []
 
 def cadastrarRevista():
     class revista:
-        def __init__(self, colecao, edicao, ano):
+        def __init__(self, colecao, edicao, ano, situacao):
             self.colecao = colecao
             self.edicao = edicao
             self.ano = ano
+            self.situacao = situacao
 
         def setColecao(self, colecao):
             self.colecao = colecao
@@ -24,11 +25,16 @@ def cadastrarRevista():
         def getAno(self):
             return self.ano
 
+        def setLocada(self, situacao):
+            self.locada = situacao
+        def getLocada(self):
+            return self.locada
+
     colecao = str(input('Coleção: ')).title().strip()
     edicao = validarInt('Edição: ')
     ano = validarInt('Ano: ')
 
-    r = revista(colecao, edicao, ano)
+    r = revista(colecao, edicao, ano, situacao=False)
 
     listaRevistas.append(r)
 
@@ -47,17 +53,16 @@ def imprimirListaRevistas():
 def validarInt(n):
     while True:
         try:
-            o = int(input(n))
+            nn = int(input(n))
         except (ValueError, TypeError):
             print('Erro! Digite um número válido.')
             continue
         else:
-            return o
+            return nn
 
 
 def pause():
-    print('Continuar?')
-    wait = input('Pressione Enter para continuar...')
+    input('Pressione Enter para continuar...')
 
 
 def cadastrarAmigo():
@@ -88,12 +93,11 @@ def cadastrarAmigo():
         def getLocacao(self):
             return self.locacao
 
-    nome = str(input('Nome: '))
+    nome = str(input('Nome: ')).title().strip()
     telefone = str(input('Telefone: '))
     endereco = str(input('Endereço: '))
-    locacao = False
 
-    a = amigo(nome, telefone, endereco, locacao)
+    a = amigo(nome, telefone, endereco, locacao=False)
 
     listaAmigos.append(a)
 
@@ -105,8 +109,7 @@ def imprimirListaAmigos():
         print(f'{"-------------------------------"}')
         print(f'Nome: {listaAmigos[c].nome}\n'
               f'Telefone: {listaAmigos[c].telefone}\n'
-              f'Endereço: {listaAmigos[c].endereco}\n'
-              f'Locação: {listaAmigos[c].locacao}')
+              f'Endereço: {listaAmigos[c].endereco}\n')
         print(f'{"-------------------------------"}')
 
 
@@ -118,6 +121,59 @@ def cadastrarEmprestimo():
             self.amigo = amigo
             self.revista = revista
 
+        def setDataL(self, dataL):
+            self.dataL = dataL
+        def getDataL(self):
+            return self.dataL
+
+        def setDataD(self, dataD):
+            self.dataD = dataD
+        def getDataD(self):
+            return self.dataD
+
+        def setAmigo(self, amigo):
+            self.amigo = amigo
+        def getAmigo(self):
+            return self.amigo
+
+        def setRevista(self, revista):
+            self.revista = revista
+        def getRevista(self):
+            return self.revista
+
+
+        while True:
+            print('-'*51)
+            print(f'{"ESCOLHA UMA REVISTA":^51}')
+            print('-'*51)
+            print(f'{"cod":^5}{"coleção":^20}{"edição":^8}{"ano":^6}{"situação":^12}')
+            print('-'*51)
+            for c in range(0, len(listaRevistas)):
+                if listaRevistas[c].situacao == False:
+                    print(f'{c+1:^5}{listaRevistas[c].colecao:^20}{listaRevistas[c].edicao:^8}{listaRevistas[c].ano:^6}'
+                          f'\033[0;32m{"Disponível":^12}\033[m')
+                else:
+                    print(
+                        f'{c+1:^5}{listaRevistas[c].colecao:^20}{listaRevistas[c].edicao:^8}{listaRevistas[c].ano:^6}'
+                        f'\033[0;31m{"Emprestada":^12}\033[m')
+            print('-' * 51)
+            while True:
+                oR = validarInt('Revista Cod: ') - 1
+                if oR < 0 or oR > len(listaRevistas):
+                    print('Erro! Escolha um COD válido.')
+                else:
+                    revista = listaRevistas[oR]
+                    break
+            print('-' * 25)
+            print(f'{"ESCOLHA UM AMIGO":^25}')
+            print('-' * 25)
+            print(f'{"cod":^5}{"nome":^20}')
+            print('-' * 25)
+            for c in range(0, len(listaAmigos)):
+                print(f'{c+1:^5}{listaAmigos[c].nome:^20}')
+            print('-' * 25)
+            pause()
+            break
 
 def imprimirListaEmprestimos():
     print(listaEmprestimo)

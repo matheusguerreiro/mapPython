@@ -24,9 +24,11 @@ while True:
             if len(listaRevistas) == 0:
                 print('Erro! Não temos Nenhuma revista Cadastrada.')
                 print('Cadastre uma Revista primeiro.')
+                pause()
             else:
                 print('Erro! Não temos Nenhum amigo Cadastrado.')
                 print('Cadastre um Amigo primeiro.')
+                pause()
         else:
             cadastrarEmprestimo()
     elif opcao == 4:
