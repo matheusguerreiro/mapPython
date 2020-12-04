@@ -112,7 +112,7 @@ def imprimirListaAmigos():
               f'Endereço: {listaAmigos[c].endereco}\n')
         print(f'{"-------------------------------"}')
 
-
+from datetime import date, timedelta
 def cadastrarEmprestimo():
     class emprestimo:
         def __init__(self, dataL, dataD, revista, amigo):
@@ -181,8 +181,11 @@ def cadastrarEmprestimo():
                 listaAmigos[oA].locacao = True
                 break
         print('-' * 25)
-        dataL = str(input('Data da Locação: '))
-        dataD = str(input('Data da Devolução: '))
+        dataL = date.today().strftime('%d/%m/%Y')
+        print(f'Locação: {dataL}')
+        dataD = date.today() + timedelta(days=7)
+        dataD = dataD.strftime('%d/%m/%Y')
+        print(dataD)
         pause()
         break
 
