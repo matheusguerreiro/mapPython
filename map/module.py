@@ -115,11 +115,11 @@ def imprimirListaAmigos():
 
 def cadastrarEmprestimo():
     class emprestimo:
-        def __init__(self, dataL, dataD, amigo, revista):
+        def __init__(self, dataL, dataD, revista, amigo):
             self.dataL = dataL
             self.dataD = dataD
-            self.amigo = amigo
             self.revista = revista
+            self.amigo = amigo
 
         def setDataL(self, dataL):
             self.dataL = dataL
@@ -141,41 +141,66 @@ def cadastrarEmprestimo():
         def getRevista(self):
             return self.revista
 
-
+    while True:
+        print('-'*51)
+        print(f'{"ESCOLHA UMA REVISTA":^51}')
+        print('-'*51)
+        print(f'{"cod":^5}{"coleção":^20}{"edição":^8}{"ano":^6}{"situação":^12}')
+        print('-'*51)
+        for c in range(0, len(listaRevistas)):
+            if listaRevistas[c].situacao == False:
+                print(f'{c+1:^5}{listaRevistas[c].colecao:^20}{listaRevistas[c].edicao:^8}{listaRevistas[c].ano:^6}'
+                      f'\033[0;32m{"Disponível":^12}\033[m')
+            else:
+                print(
+                    f'{c+1:^5}{listaRevistas[c].colecao:^20}{listaRevistas[c].edicao:^8}{listaRevistas[c].ano:^6}'
+                    f'\033[0;31m{"Emprestada":^12}\033[m')
+        print('-' * 51)
         while True:
-            print('-'*51)
-            print(f'{"ESCOLHA UMA REVISTA":^51}')
-            print('-'*51)
-            print(f'{"cod":^5}{"coleção":^20}{"edição":^8}{"ano":^6}{"situação":^12}')
-            print('-'*51)
-            for c in range(0, len(listaRevistas)):
-                if listaRevistas[c].situacao == False:
-                    print(f'{c+1:^5}{listaRevistas[c].colecao:^20}{listaRevistas[c].edicao:^8}{listaRevistas[c].ano:^6}'
-                          f'\033[0;32m{"Disponível":^12}\033[m')
-                else:
-                    print(
-                        f'{c+1:^5}{listaRevistas[c].colecao:^20}{listaRevistas[c].edicao:^8}{listaRevistas[c].ano:^6}'
-                        f'\033[0;31m{"Emprestada":^12}\033[m')
-            print('-' * 51)
-            while True:
-                oR = validarInt('Revista Cod: ') - 1
-                if oR < 0 or oR > len(listaRevistas):
-                    print('Erro! Escolha um COD válido.')
-                else:
-                    revista = listaRevistas[oR]
-                    break
-            print('-' * 25)
-            print(f'{"ESCOLHA UM AMIGO":^25}')
-            print('-' * 25)
-            print(f'{"cod":^5}{"nome":^20}')
-            print('-' * 25)
-            for c in range(0, len(listaAmigos)):
-                print(f'{c+1:^5}{listaAmigos[c].nome:^20}')
-            print('-' * 25)
-            pause()
-            break
+            oR = validarInt('Revista Cod: ') - 1
+            if oR < 0 or oR > len(listaRevistas):
+                print('Erro! Escolha um COD válido.')
+            else:
+                revista = listaRevistas[oR]
+                listaRevistas[oR].situacao = True
+                break
+        print('-' * 25)
+        print(f'{"ESCOLHA UM AMIGO":^25}')
+        print('-' * 25)
+        print(f'{"cod":^5}{"nome":^20}')
+        print('-' * 25)
+        for c in range(0, len(listaAmigos)):
+            print(f'{c+1:^5}{listaAmigos[c].nome:^20}')
+        print('-' * 25)
+        while True:
+            oA = validarInt('Amigo Cod: ') - 1
+            if oA < 0 or oA > len(listaAmigos):
+                print('Erro! Escolha um COD válido.')
+            else:
+                amigo = listaAmigos[oA]
+                listaAmigos[oA].locacao = True
+                break
+        print('-' * 25)
+        dataL = str(input('Data da Locação: '))
+        dataD = str(input('Data da Devolução: '))
+        pause()
+        break
+
+    e = emprestimo(dataL, dataD, revista, amigo)
+
+    listaEmprestimo.append(e)
+
+    return e
+
 
 def imprimirListaEmprestimos():
-    print(listaEmprestimo)
+
+    for c in range(0, len(listaEmprestimo)):
+        print(f'Revista: {listaEmprestimo[c].revista.colecao}, {listaEmprestimo[c].revista.edicao}, '
+              f'{listaEmprestimo[c].revista.ano}\n'
+              f'Amigo: {listaEmprestimo[c].amigo.nome}\n'
+              f'Locação: {listaEmprestimo[c].dataL}\n'
+              f'Devolução: {listaEmprestimo[c].dataD}\n')
+    pause()
 
 
