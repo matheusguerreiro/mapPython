@@ -61,6 +61,24 @@ def validarInt(n):
             return nn
 
 
+def validarTelefoneCelular(s):
+    qn = 0
+    while True:
+        sn = ''
+        nt = input(s).strip()
+        for c in range(0, len(nt)):
+            if nt[c].isnumeric():
+                qn += 1
+                sn += nt[c]
+        if qn < 11:
+            print('\033[0;31mNúmero Inválido!\033[m \033[0;33mPrecisa ter 11 números...\n'
+                  'Exemplo: (53) 98765-4321\033[m')
+            continue
+        else:
+            break
+    return sn
+
+
 def pause():
     input('Pressione Enter para continuar...')
 
@@ -94,7 +112,7 @@ def cadastrarAmigo():
             return self.locacao
 
     nome = str(input('Nome: ')).title().strip()
-    telefone = str(input('Telefone: '))
+    telefone = validarTelefoneCelular('Telefone Celular: ')
     endereco = str(input('Endereço: '))
 
     a = amigo(nome, telefone, endereco, locacao=False)
@@ -108,7 +126,10 @@ def imprimirListaAmigos():
     for c in range(0, len(listaAmigos)):
         print(f'{"-------------------------------"}')
         print(f'Nome: {listaAmigos[c].nome}\n'
-              f'Telefone: {listaAmigos[c].telefone}\n'
+              f'Telefone: ({listaAmigos[c].telefone[0]}{listaAmigos[c].telefone[1]}) '
+              f'{listaAmigos[c].telefone[2]}{listaAmigos[c].telefone[3]}{listaAmigos[c].telefone[4]}'
+              f'{listaAmigos[c].telefone[5]}{listaAmigos[c].telefone[6]}-{listaAmigos[c].telefone[7]}'
+              f'{listaAmigos[c].telefone[8]}{listaAmigos[c].telefone[9]}{listaAmigos[c].telefone[10]}\n'
               f'Endereço: {listaAmigos[c].endereco}\n')
         print(f'{"-------------------------------"}')
 
