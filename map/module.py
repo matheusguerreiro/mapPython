@@ -2,6 +2,7 @@ listaRevistas = []
 listaAmigos = []
 listaEmprestimo = []
 
+from random import randint
 def cadastrarRevista():
     class revista:
         def __init__(self, colecao, edicao, ano, situacao):
@@ -30,9 +31,22 @@ def cadastrarRevista():
         def getLocada(self):
             return self.locada
 
+    print(f'{"-----------------------"}')
+    print(f'{"# Cadastro de Revista #"}')
+    print(f'{"-----------------------"}')
     colecao = str(input('Coleção: ')).title().strip()
-    edicao = validarInt('Edição: ')
+    c = 0
+    if len(listaRevistas) == 0:
+        edicao = randint(1111, 9999)
+    else:
+        edicao = randint(1111, 9999)
+        while listaRevistas[c].edicao == edicao:
+            edicao = randint(1111, 9999)
+            c += 1
+    print('Edição: ', end='')
+    print(edicao)
     ano = validarInt('Ano: ')
+    print(f'{"-----------------------"}')
 
     r = revista(colecao, edicao, ano, situacao=False)
 
@@ -43,11 +57,13 @@ def cadastrarRevista():
 
 def imprimirListaRevistas():
     for c in range(0, len(listaRevistas)):
-        print(f'{"-------------------------------"}')
+        print(f'{"---------------------"}')
+        print(f'{"# Lista de Revistas #"}')
+        print(f'{"---------------------"}')
         print(f'Coleção: {listaRevistas[c].colecao}\n'
               f'Edição: {listaRevistas[c].edicao}\n'
               f'Ano: {listaRevistas[c].ano}')
-        print(f'{"-------------------------------"}')
+        print(f'{"---------------------"}')
 
 
 def validarInt(n):
@@ -55,22 +71,33 @@ def validarInt(n):
         try:
             nn = int(input(n))
         except (ValueError, TypeError):
-            print('Erro! Digite um número válido.')
+            print('\033[0;31mErro! Digite um número válido.\033[m')
             continue
         else:
             return nn
 
 
-def validarTelefoneCelular(s):
-    qn = 0
+def validarNome(s):
     while True:
+        n = input(s).strip()
+        if n.isalpha() or n.replace(' ', '').isalpha():
+            break
+        else:
+            print('\033[0;31mErro! Digite apenas Letras para Nome e Sobrenome.\033[m')
+            continue
+    return n.title()
+
+
+def validarTelefoneCelular(s):
+    while True:
+        qn = 0
         sn = ''
         nt = input(s).strip()
         for c in range(0, len(nt)):
             if nt[c].isnumeric():
                 qn += 1
                 sn += nt[c]
-        if qn < 11:
+        if qn != 11:
             print('\033[0;31mNúmero Inválido!\033[m \033[0;33mPrecisa ter 11 números...\n'
                   'Exemplo: (53) 98765-4321\033[m')
             continue
@@ -80,7 +107,8 @@ def validarTelefoneCelular(s):
 
 
 def pause():
-    input('Pressione Enter para continuar...')
+    p = input('Pressione \033[0;32mENTER\033[m para continuar...')
+    return p
 
 
 def cadastrarAmigo():
@@ -111,7 +139,7 @@ def cadastrarAmigo():
         def getLocacao(self):
             return self.locacao
 
-    nome = str(input('Nome: ')).title().strip()
+    nome = validarNome('Nome: ')
     telefone = validarTelefoneCelular('Telefone Celular: ')
     endereco = str(input('Endereço: '))
 
@@ -180,7 +208,7 @@ def cadastrarEmprestimo():
         while True:
             oR = validarInt('Revista Cod: ') - 1
             if oR < 0 or oR > len(listaRevistas):
-                print('Erro! Escolha um COD válido.')
+                print('\033[0;31mErro! Escolha um COD válido.\033[m')
             else:
                 revista = listaRevistas[oR]
                 listaRevistas[oR].situacao = True
@@ -196,7 +224,7 @@ def cadastrarEmprestimo():
         while True:
             oA = validarInt('Amigo Cod: ') - 1
             if oA < 0 or oA > len(listaAmigos):
-                print('Erro! Escolha um COD válido.')
+                print('\033[0;31mErro! Escolha um COD válido.\033[m')
             else:
                 amigo = listaAmigos[oA]
                 listaAmigos[oA].locacao = True
@@ -206,7 +234,7 @@ def cadastrarEmprestimo():
         print(f'Locação: {dataL}')
         dataD = date.today() + timedelta(days=7)
         dataD = dataD.strftime('%d/%m/%Y')
-        print(dataD)
+        print(f'Devolução: {dataD}')
         pause()
         break
 
