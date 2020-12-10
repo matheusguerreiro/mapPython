@@ -56,14 +56,15 @@ def cadastrarRevista():
 
 
 def imprimirListaRevistas():
+    print(f'{"---------------------"}')
+    print(f'{"# Lista de Revistas #"}')
+    print(f'{"---------------------"}')
     for c in range(0, len(listaRevistas)):
-        print(f'{"---------------------"}')
-        print(f'{"# Lista de Revistas #"}')
-        print(f'{"---------------------"}')
+        print(f'{"-" * 50}')
         print(f'Coleção: {listaRevistas[c].colecao}\n'
               f'Edição: {listaRevistas[c].edicao}\n'
               f'Ano: {listaRevistas[c].ano}')
-        print(f'{"---------------------"}')
+    print(f'{"---------------------"}')
 
 
 def validarInt(n):
@@ -107,8 +108,7 @@ def validarTelefoneCelular(s):
 
 
 def pause():
-    p = input('Pressione \033[0;32mENTER\033[m para continuar...')
-    return p
+    input('Pressione \033[0;32mENTER\033[m para continuar...')
 
 
 def cadastrarAmigo():
@@ -139,9 +139,13 @@ def cadastrarAmigo():
         def getLocacao(self):
             return self.locacao
 
+    print(f'{"---------------------"}')
+    print(f'{"# Cadastro de Amigo #"}')
+    print(f'{"---------------------"}')
     nome = validarNome('Nome: ')
     telefone = validarTelefoneCelular('Telefone Celular: ')
     endereco = str(input('Endereço: '))
+    print(f'{"---------------------"}')
 
     a = amigo(nome, telefone, endereco, locacao=False)
 
@@ -151,15 +155,19 @@ def cadastrarAmigo():
 
 
 def imprimirListaAmigos():
+    print(f'{"-------------------"}')
+    print(f'{"# Lista de Amigos #"}')
+    print(f'{"-------------------"}')
     for c in range(0, len(listaAmigos)):
-        print(f'{"-------------------------------"}')
+        print(f'{"-" * 50}')
         print(f'Nome: {listaAmigos[c].nome}\n'
               f'Telefone: ({listaAmigos[c].telefone[0]}{listaAmigos[c].telefone[1]}) '
               f'{listaAmigos[c].telefone[2]}{listaAmigos[c].telefone[3]}{listaAmigos[c].telefone[4]}'
               f'{listaAmigos[c].telefone[5]}{listaAmigos[c].telefone[6]}-{listaAmigos[c].telefone[7]}'
               f'{listaAmigos[c].telefone[8]}{listaAmigos[c].telefone[9]}{listaAmigos[c].telefone[10]}\n'
-              f'Endereço: {listaAmigos[c].endereco}\n')
-        print(f'{"-------------------------------"}')
+              f'Endereço: {listaAmigos[c].endereco}')
+    print(f'{"-------------------"}')
+
 
 from datetime import date, timedelta
 def cadastrarEmprestimo():
@@ -190,6 +198,9 @@ def cadastrarEmprestimo():
         def getRevista(self):
             return self.revista
 
+    print(f'{"--------------------------"}')
+    print(f'{"# Cadastro de Empréstimo #"}')
+    print(f'{"--------------------------"}')
     while True:
         print('-'*51)
         print(f'{"ESCOLHA UMA REVISTA":^51}')
@@ -209,18 +220,23 @@ def cadastrarEmprestimo():
             oR = validarInt('Revista Cod: ') - 1
             if oR < 0 or oR > len(listaRevistas):
                 print('\033[0;31mErro! Escolha um COD válido.\033[m')
+            elif listaRevistas[oR].situacao == True:
+                print('\033[0;31mErro! Revista já está Emprestada.\033[m')
             else:
                 revista = listaRevistas[oR]
                 listaRevistas[oR].situacao = True
                 break
-        print('-' * 25)
-        print(f'{"ESCOLHA UM AMIGO":^25}')
-        print('-' * 25)
-        print(f'{"cod":^5}{"nome":^20}')
-        print('-' * 25)
+        print('-' * 32)
+        print(f'{"ESCOLHA UM AMIGO":^32}')
+        print('-' * 32)
+        print(f'{"cod":^5}{"nome":^20}{"locação":^7}')
+        print('-' * 32)
         for c in range(0, len(listaAmigos)):
-            print(f'{c+1:^5}{listaAmigos[c].nome:^20}')
-        print('-' * 25)
+            if listaAmigos[c].locacao == False:
+                print(f'{c+1:^5}{listaAmigos[c].nome:^20}\033[0;32m{"Não":^7}\033[m')
+            else:
+                print(f'{c + 1:^5}{listaAmigos[c].nome:^20}\033[0;33m{"Sim":^7}\033[m')
+        print('-' * 32)
         while True:
             oA = validarInt('Amigo Cod: ') - 1
             if oA < 0 or oA > len(listaAmigos):
@@ -235,7 +251,7 @@ def cadastrarEmprestimo():
         dataD = date.today() + timedelta(days=7)
         dataD = dataD.strftime('%d/%m/%Y')
         print(f'Devolução: {dataD}')
-        pause()
+        print(f'{"--------------------------"}')
         break
 
     e = emprestimo(dataL, dataD, revista, amigo)
@@ -245,14 +261,27 @@ def cadastrarEmprestimo():
     return e
 
 
-def imprimirListaEmprestimos():
+def verificarSituacaoListaRevista():
+    qD = len(listaRevistas)
+    for c in range(0, len(listaRevistas)):
+        if listaRevistas[c].situacao == True:
+            qD -= 1
+    if qD == 0:
+        return False
+    else:
+        return True
 
+
+def imprimirListaEmprestimos():
+    print(f'{"------------------------"}')
+    print(f'{"# Lista de Empréstimos #"}')
+    print(f'{"------------------------"}')
     for c in range(0, len(listaEmprestimo)):
+        print(f'{"-" * 50}')
         print(f'Revista: {listaEmprestimo[c].revista.colecao}, {listaEmprestimo[c].revista.edicao}, '
               f'{listaEmprestimo[c].revista.ano}\n'
               f'Amigo: {listaEmprestimo[c].amigo.nome}\n'
               f'Locação: {listaEmprestimo[c].dataL}\n'
-              f'Devolução: {listaEmprestimo[c].dataD}\n')
-    pause()
-
+              f'Devolução: {listaEmprestimo[c].dataD}')
+    print(f'{"------------------------"}')
 
